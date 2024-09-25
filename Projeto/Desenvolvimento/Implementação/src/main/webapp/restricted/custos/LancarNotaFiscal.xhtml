@@ -1,0 +1,430 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Notas Fiscais</ui:define>
+
+	<ui:define name="corpo">
+
+		<h2>Notas Fiscais</h2>
+
+		<h:form id="form" enctype="multipart/form-data">
+			
+			<p:messages id="messagesNF" showDetail="false" closable="true">
+				<p:autoUpdate />
+			</p:messages>
+				
+			
+			<p:toolbar id="toolbar">
+				<p:toolbarGroup>
+					<p:spacer width="10px" />			
+					<p:commandButton value="Adicionar NF" title="Adicionar nota fiscal"
+						style="margin-top: 10px; margin-bottom: 10px"
+						icon="pi pi-plus"            	
+		            	actionListener="#{lancarNotaFiscalBean.limpar}" 
+		            	oncomplete="PF('addDialogWidgetVar').show()"
+		            	update="addDialog toolbar" 
+		            	process="@this">
+		            	<p:resetInput target="addDialog" />	
+	            	</p:commandButton>
+	            	
+	            	<span class="ui-separator">
+			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+			        
+					<p:button icon="pi pi-chevron-left" value="Voltar" 
+						outcome="/restricted/custos/LancarDespesaFertilizante.xhtml"/>						     
+		             
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			
+<!-- Lista de Notas -->
+
+
+			<p:dataTable id="notasTable"
+				value="#{lancarNotaFiscalBean.notas}" var="nota"
+				style="margin-top: 20px" emptyMessage="Nenhuma nota fiscal encontrada."
+				rows="10" paginator="true" paginatorAlwaysVisible="true"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15" >
+				
+				<f:facet name="header">
+	                <div class="flex align-items-center justify-content-between">
+	                    
+	                    <div class="field col-12 md:col-4" style="margin-top: 10px">
+							<p:outputLabel for="anoAgricola" value="Filtrar por ano" style="margin-right: 10px" />
+							<p:selectOneMenu id="anoAgricola" value="#{lancarNotaFiscalBean.periodoSelecionado}" >
+								<f:selectItem itemLabel="Selecione o ano agrícola" />
+								<f:selectItems value="#{lancarNotaFiscalBean.anos}"
+									var="ano" itemValue="#{ano}" />
+								
+								<p:ajax
+									listener="#{lancarNotaFiscalBean.filtrarPorAno}"
+									update="form"
+									process="anoAgricola" />
+							</p:selectOneMenu>
+						</div>
+	                </div>
+	            </f:facet>
+				
+				<p:column headerText="Id" sortBy="#{nota.id}"
+					style="width: 10px; text-align: center">
+					<h:outputText value="#{nota.id}" />
+				</p:column>
+				
+				<p:column headerText="Número" sortBy="#{nota.numero}"
+					style="width: 20px; text-align: center">
+					<h:outputText value="#{nota.numero}" />
+				</p:column>
+				
+				<p:column headerText="Data Emissão" style="width: 10px; text-align: center">
+					<h:outputText value="#{nota.dataEmissao}">
+						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Descrição"
+					style="width: 60px; text-align: left">
+					<h:outputText value="#{nota.descricao}" />
+				</p:column>
+				
+				<p:column headerText="Valor Total"
+					style="width: 30px; text-align: right">
+					<h:outputText value="#{nota.valorTotal}" >
+						<f:convertNumber type="currency" currencySymbol="R$"/>
+					</h:outputText>
+				</p:column>			
+								
+				<p:column headerText="Nota Fiscal"
+					style="width: 30px; text-align: center">
+					<p:commandButton title="Download pdf" icon="pi pi-download"  
+			        	rendered="#{nota.url ne null}"	
+		            	ajax="false"
+		            	process="@this"
+		            	immediate="true"
+		            	action="#{lancarNotaFiscalBean.download2(nota)}">            	
+	            	</p:commandButton>	
+				</p:column>
+					
+				<p:column headerText="Operações"
+					style="width: 30px; text-align: center">
+
+					<p:commandButton icon="pi pi-pencil" title="Editar nota fiscal"
+		            	oncomplete="PF('addDialogWidgetVar').show()"
+		            	update="form:addDialog form:itensTable" 
+		            	process="@this">
+		            	<f:setPropertyActionListener
+							target="#{lancarNotaFiscalBean.notaFiscal}"
+							value="#{nota}"/>	
+	            	</p:commandButton>
+	            	
+					<p:commandButton icon="pi pi-trash" title="Excluir"
+						onclick="PF('confirmacaoExclusao').show();" process="@this"
+						imediate="true">
+						<f:setPropertyActionListener
+							target="#{lancarNotaFiscalBean.notaFiscalSelecionada}"
+							value="#{nota}" />
+					</p:commandButton>
+				</p:column>
+			
+			</p:dataTable>
+			
+			<p:confirmDialog id="confirmacaoExclusaoDialog"
+				widgetVar="confirmacaoExclusao"
+				message="Tem certeza que deseja excluir a nota fiscal #{nota.numero}?"
+				header="Exclusão de nota fiscal" 
+				severity="alert">
+				<p:button icon="pi pi-thumbs-down" 
+					value="Não"
+					onclick="PF('confirmacaoExclusao').hide(); return false;" />
+				<p:commandButton icon="pi pi-thumbs-up" 
+					value="Sim" 
+					process="@this"
+					update=":form:notasTable messagesNF"
+					onclick="PF('confirmacaoExclusao').hide();"
+					action="#{lancarNotaFiscalBean.excluir}" />
+			</p:confirmDialog>
+
+
+<!-- Dialog NF e Itens -->
+
+
+
+			<p:dialog id="addDialog" widgetVar="addDialogWidgetVar" 
+				header="Cadastro de Nota Fiscal"
+				modal="true" resizable="true" closeOnEscape="true"
+				showEffect="explode" hideEffect="explode" 
+				width="100%" position="center top" maximizable="true"
+				height="100%" fitViewport="true" responsive="true">	
+
+				<p:messages id="messages" showDetail="false" closable="true">
+				</p:messages>				
+			
+				<p:panelGrid id="gridNota" columns="2"
+					style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+					<p:outputLabel for="numero" value="Número" />
+					<p:inputText id="numero"
+						value="#{lancarNotaFiscalBean.notaFiscal.numero}" required="true"
+						validatorMessage="O número da da nota é obrigatório." />
+
+					<p:outputLabel for="data" value="Data de Emissão" />
+					<p:datePicker id="data"
+						value="#{lancarNotaFiscalBean.notaFiscal.dataEmissao}"
+						pattern="dd/MM/yyyy" type="localDate" yearNavigator="true"
+						monthNavigator="true"
+						yearRange="#{lancarNotaFiscalBean.yearRange}" showIcon="true"
+						required="true" validatorMessage="A data é obrigatória." />
+					
+					<p:outputLabel value="Total da NF" for="total"/>
+					<p:inputNumber id="total"
+						value="#{lancarNotaFiscalBean.notaFiscal.valorTotal}" symbol="R$ "
+						symbolPosition="p" decimalSeparator="," thousandSeparator="."
+						minValue="0" decimalPlaces="2" required="true"
+						validatorMessage="O valor total é obrigatório.">
+					</p:inputNumber>	
+					
+					<p:outputLabel for="descricao" value="Descrição" />
+					<p:inputTextarea id="descricao" rows="2" cols="40"
+						value="#{lancarNotaFiscalBean.notaFiscal.descricao}"/>
+											
+					
+					<p:outputLabel value="Arquivo da NF"/>
+					<h:panelGroup>
+						<p:fileUpload id="upload" value="#{lancarNotaFiscalBean.file}"
+							mode="simple" skinSimple="true" auto="true"
+							process="@this" update="messages :form:nomearquivo"
+							listener="#{lancarNotaFiscalBean.upload}"
+							label="Selecionar Arquivo" messageTemplate="{name} - {size}"/>
+						<p:outputLabel id="nomearquivo"
+							value="#{lancarNotaFiscalBean.nomeArquivo}" />
+					</h:panelGroup>
+				</p:panelGrid>
+				
+					
+
+<!-- Lista de Itens -->
+
+				<p:toolbar id="tbitem" style="margin-top: 10px; margin-bottom: 20px">
+					<p:toolbarGroup>
+						<p:spacer width="10px" />
+						<p:commandButton value="Adicionar Itens" title="Adicionar item"
+
+							style="margin-top: 10px; margin-bottom: 10px"
+							icon="pi pi-plus"            	
+			            	actionListener="#{lancarNotaFiscalBean.limparItem}" 
+			            	oncomplete="PF('addItemDialogWidgetVar').show()"
+			            	update="addItemDialog" 
+			            	process="@this">
+			            	<p:resetInput target="addItemDialog" />	
+	            		</p:commandButton>	
+					</p:toolbarGroup>
+				</p:toolbar>				
+				
+				<p:outputLabel value="Total dos Itens = " />	
+				<h:outputText id="totalItem" value="#{lancarNotaFiscalBean.notaFiscal.valorItens}" > 
+					<f:convertNumber type="currency" currencySymbol="R$"/>
+				</h:outputText>
+				
+				
+	    		<p:dataTable id="itensTable"
+					value="#{lancarNotaFiscalBean.notaFiscal.itens}" var="item"
+					emptyMessage="Nenhum item encontrado."
+					rows="10" paginator="true" paginatorAlwaysVisible="true"
+					paginatorPosition="bottom" rowsPerPageTemplate="5,10,15" style="margin-top: 10px">
+					
+					<p:column headerText="Tipo" sortBy="#{item.fertilizante.tipo}"
+						style="width: 100px; text-align: left">
+						<h:outputText value="#{item.fertilizante.tipo}" />
+					</p:column>
+					
+					<p:column headerText="Nome" sortBy="#{item.fertilizante.nome}"
+						style="width: 100px; text-align: left">
+						<h:outputText value="#{item.fertilizante.nome}" />
+					</p:column>
+									
+
+					<p:column headerText="Qde" 
+						style="width: 30px; text-align: center">
+						<h:outputText value="#{item.quantidade}" />
+					</p:column>
+					
+					<p:column headerText="Medida" 
+						style="width: 30px; text-align: center">
+						<h:outputText value="#{item.medida}" />
+					</p:column>
+				
+					<p:column headerText="Valor Unitário"
+						style="width: 40px; text-align: right">
+						<h:outputText value="#{item.valor}">
+							<f:convertNumber type="currency" currencySymbol="R$"/>
+						</h:outputText>						
+					</p:column>
+					<p:column headerText="Valor Total"
+						style="width: 50px; text-align: right">
+						<h:outputText value="#{item.valor * item.quantidade}" >
+							<f:convertNumber type="currency" currencySymbol="R$"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Operações"
+					style="width: 30px; text-align: center">
+
+					<p:commandButton title="Editar item"
+						icon="pi pi-pencil"	            	
+		            	oncomplete="PF('addItemDialogWidgetVar').show()"
+		            	update="form:addItemDialog form:itensTable" 
+		            	process="@this">
+		            	<f:setPropertyActionListener
+							target="#{lancarNotaFiscalBean.item}"
+							value="#{item}"/>	
+	            	</p:commandButton>
+	            	
+					<p:commandButton icon="pi pi-trash" title="Excluir"
+						onclick="PF('confirmacaoExclusaoItem').show();" 
+						process="@this form:botaoSalvar"
+						imediate="true">
+						<f:setPropertyActionListener
+							target="#{lancarNotaFiscalBean.item}"
+							value="#{item}" />
+					</p:commandButton>
+				</p:column>
+		
+				</p:dataTable>	
+				
+					
+								
+							
+				
+				<p:toolbar id="tbNF" style="margin-top: 10px">
+					<p:toolbarGroup>
+						<p:spacer width="10px" />
+									
+						<p:commandButton id="botaoSalvar" value="Salvar NF" icon="pi pi-save"
+							disabled="#{lancarNotaFiscalBean.semItens}"
+							style="margin-top: 10px; margin-bottom: 10px"
+							action="#{lancarNotaFiscalBean.salvar}" 
+							update="notasTable messages gridNota"
+							process="@this gridNota"/>
+	
+						<p:spacer width="10px" />
+		
+						<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-replay"
+							style="margin-top: 10px; margin-bottom: 10px"
+							action="#{lancarNotaFiscalBean.limpar}" 
+							update="gridNota itensTable"
+							process="@this"/>
+							
+						<p:spacer width="10px" />
+							
+						<p:commandButton value="Sair" id="botaoSairNF" icon="pi pi-times"
+							onclick="PF('addDialogWidgetVar').hide();"
+							update="notasTable messages gridNota"
+							process="@this" style="margin-top: 10px; margin-bottom: 10px" />
+					</p:toolbarGroup>
+				</p:toolbar>		
+
+			</p:dialog>
+			
+			
+			<p:dialog id="addItemDialog" widgetVar="addItemDialogWidgetVar"
+				header="Cadastro de Itens"
+				modal="true" resizable="true" closeOnEscape="true"
+				showEffect="explode" hideEffect="explode" 
+				width="70%" position="center top" maximizable="true"
+				height="70%" fitViewport="true" responsive="true" >
+				
+				<p:messages id="messagesItem" showDetail="false" closable="true">
+				</p:messages>
+				
+				<p:panelGrid id="gridItem" columns="2"
+					style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+					
+					<p:outputLabel value="Tipo Insumo" for="tipoInsumo" />
+					<p:selectOneMenu id="tipoInsumo"
+						value="#{lancarNotaFiscalBean.auxiliar}"
+						rendered="true" validatorMessage="O tipo é obrigatório.">
+						<f:selectItem itemLabel="Selecione o tipo" />
+						<f:selectItems
+							value="#{lancarNotaFiscalBean.tiposInsumo}"
+							var="tipoInsumo" itemLabel="#{tipoInsumo}"
+							itemValue="#{tipoInsumo}" />
+
+						<p:ajax listener="#{lancarNotaFiscalBean.carregarTipos}"
+							update="fert" process="tipoInsumo" />
+					</p:selectOneMenu>
+								
+					<p:outputLabel value="Nome" for="fert" />
+					<p:selectOneMenu id="fert"
+						value="#{lancarNotaFiscalBean.item.fertilizante}"
+						required="true" validatorMessage="O fertilizante é obrigatório.">
+						<f:selectItem
+							itemLabel="Selecione o fertilizante" />
+						<f:selectItems value="#{lancarNotaFiscalBean.fertilizantes}"
+							var="fert" itemLabel="#{fert.nome}"
+							itemValue="#{fert}" />
+						
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Medida" for="medida" />
+					<p:selectOneMenu id="medida"
+						value="#{lancarNotaFiscalBean.item.medida}"
+						required="true" validatorMessage="A unidade de medida é obrigatória.">
+						<f:selectItem
+							itemLabel="Seleciona a unidade de medida" />
+						<f:selectItems value="#{lancarNotaFiscalBean.medidas}"
+							var="medida" itemLabel="#{medida}"
+							itemValue="#{medida}" />
+					</p:selectOneMenu>
+					
+					<h:panelGroup>	
+						<p:outputLabel value="Quantidade" for="itemQde"/>
+					</h:panelGroup>		
+					<p:inputText id="itemQde"
+						value="#{lancarNotaFiscalBean.item.quantidade}" 
+						required="true"
+						validatorMessage="A quantidade é obrigatória." />
+						
+					<p:outputLabel value="Valor Unitário" for="itemVlr"/>
+					<p:inputNumber id="itemVlr"
+						value="#{lancarNotaFiscalBean.item.valor}" symbol="R$ "
+						symbolPosition="p" decimalSeparator="," thousandSeparator="."
+						minValue="0" decimalPlaces="2" required="true"
+						validatorMessage="O valor é obrigatório.">
+					</p:inputNumber>					
+					
+				</p:panelGrid>
+									
+				<p:commandButton value="Adicionar" id="botaoSalvarItem" icon="pi pi-save"
+					actionListener="#{lancarNotaFiscalBean.salvarItem}" 
+					update="itensTable gridItem messagesItem totalItem botaoSalvar"
+					process="@this gridNota gridItem" />
+				<p:spacer width="10px" />
+				<p:commandButton value="Sair" id="botaoSair" icon="pi pi-save"
+					onclick="PF('addItemDialogWidgetVar').hide();"
+					update="itensTable"
+					process="@this" style="margin-top: 10px; margin-bottom: 10px" />
+				
+			</p:dialog>
+			
+			<p:confirmDialog id="confirmacaoExclusaoItemDialog"
+				widgetVar="confirmacaoExclusaoItem"
+				message="Tem certeza que deseja excluir o item?"
+				header="Exclusão de item" 
+				severity="alert">
+				<p:button icon="pi pi-thumbs-down" 
+					value="Não"
+					onclick="PF('confirmacaoExclusaoItem').hide(); return false;" />
+				<p:commandButton icon="pi pi-thumbs-up" 
+					value="Sim" 
+					process="@this"
+					update=":form:itensTable gridNota"
+					onclick="PF('confirmacaoExclusaoItem').hide();"
+					action="#{lancarNotaFiscalBean.excluirItem}" />
+			</p:confirmDialog>			
+
+		</h:form>
+	</ui:define>
+</ui:composition>
