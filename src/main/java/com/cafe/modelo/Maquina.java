@@ -64,6 +64,9 @@ public class Maquina {
 	@PositiveOrZero
 	private Integer vidaUtil;
 
+	@PositiveOrZero
+	private double valorResidual;
+
 	@NotNull
 	private LocalDate dataCompra;
 
