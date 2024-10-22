@@ -58,6 +58,8 @@ public class Instalacao {
 	private float valor;
 	@PositiveOrZero
 	private int vidaUtil;
+	@PositiveOrZero
+	private double valorResidual;
 
 	@NotNull
 	@ManyToOne
