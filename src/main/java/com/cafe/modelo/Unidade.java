@@ -3,6 +3,8 @@ package com.cafe.modelo;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
+import java.math.BigDecimal;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,11 +16,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.util.List;
+
 
 import com.cafe.modelo.enums.TipoPropriedade;
 
@@ -66,6 +72,11 @@ public class Unidade implements Serializable {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="codigo_endereco")
 	private Endereco endereco;
+
+	@OneToMany(mappedBy = "unidade", cascade = CascadeType.ALL)
+	private List<Talhao> talhoes;
+
+	private BigDecimal area;
 	
 	/*
 	 * Datas de Criação e Modificação
