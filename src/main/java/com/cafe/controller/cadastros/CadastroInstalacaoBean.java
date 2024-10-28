@@ -82,6 +82,10 @@ public class CadastroInstalacaoBean implements Serializable {
 	public void carregaVidaUtil() {
 		this.instalacao.setVidaUtil(instalacao.getTipo().getValor());
 	}
+
+	public void carregaValorResidual() {
+		this.maquina.setValorResidual(maquina.getTipo().getValorResidual());
+	}
 	
 	public void limpar() {
 		this.instalacao = new Instalacao();
