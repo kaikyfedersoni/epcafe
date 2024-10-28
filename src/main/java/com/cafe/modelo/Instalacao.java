@@ -55,11 +55,11 @@ public class Instalacao {
 	private String nome;
 	
 	@PositiveOrZero
-	private float valor;
+	private BigDecimal valor;
 	@PositiveOrZero
-	private int vidaUtil;
+	private BigDecimal vidaUtil;
 	@PositiveOrZero
-	private double valorResidual;
+	private BigDecimal valorResidual;
 
 	@NotNull
 	@ManyToOne
