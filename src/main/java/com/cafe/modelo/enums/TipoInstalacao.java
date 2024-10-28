@@ -1,69 +1,71 @@
 package com.cafe.modelo.enums;
 
+import java.math.BigDecimal;
+
 public enum TipoInstalacao {
 	
-	ACUDE(50,20),
-	ALMOXARIFADO_ALVENARIA(40,20),
-	ALMOXARIFADO_MADEIRA(25,20),
-	ALOJAMENTO_ALVENARIA(40,20),
-	ALOJAMENTO_MADEIRA(25,20),
-	BARRACAO_ALVENARIA(40,20),
-	BARRACAO_MADEIRA(25,20),
-	BARRAGEM(50,20),
-	CAIXA_MISTURA(40,0),
-	CASA_ALVENARIA_SEDE(40,20),
-	CASA_MADEIRA_SEDE(25,20),
-	CASA_ALVENARIA_ADMINISTRADOR(40,20),
-	CASA_MADEIRA_ADMINISTRADOR(25,20),
-	CASA_ALVENARIA_EMPREGADOS(40,20),
-	CASA_MADEIRA_EMPREGADOS(25,20),
-	CASA_METEOROLOGIA_HIDROLOGIA(40,0),
-	CERCA_INTERNA(25,20),
-	CERCA_EXTERNA(25,20),
-	CISTERNA(40,0),
-	ESCRITORIO_ALVENARIA(40,20),
-	ESCRITORIO_MADEIRA(25,20),
-	ELETRIFICACAO_RURAL(40,20),
-	GALPAO_ALVENARIA(40,20),
-	GALPAO_MADEIRA(25,20),
-	GALPAO_METALICO(40,20),
-	GALPAO_BENEFICIAMENTO(40,0),
-	GALPAO_DEFENSIVOS(40,0),
-	GALPAO_PRODUTOS(40,0),
-	LAVADOR_MAQUINAS(40,0),
-	OFICINA_MECANICA_ALVENARIA(40,20),
-	OFICINA_MECANICA_MADEIRA(25,20),
-	PAIOL_ALVENARIA(40,20),
-	PAIOL_MADEIRA(25,20),
-	POCO_ARTESIANO(40,20),
-	REFEITORIO(40,0),
-	REPRESA(50,20),
-	RODOLUVIO(40,0),
-	TANQUE(40,20),
-	TERREIRO_ASFALTO(40,20),
-	TERREIRO_CONCRETO(40,20),
-	TERREIRO_TERRA_BATIDA(0,0),
-	TULHA_ALVENARIA(40,20),
-	TULHA_CONCRETO(40,20),
-	TULHA_MADEIRA(25,20),
-	OUTROS(0,0);
+	ACUDE(new BigDecimal(50),new BigDecimal(20)),
+	ALMOXARIFADO_ALVENARIA(new BigDecimal(40),new BigDecimal(20)),
+	ALMOXARIFADO_MADEIRA(new BigDecimal(25),new BigDecimal(20)),
+	ALOJAMENTO_ALVENARIA(new BigDecimal(40),new BigDecimal(20)),
+	ALOJAMENTO_MADEIRA(new BigDecimal(25),new BigDecimal(20)),
+	BARRACAO_ALVENARIA(new BigDecimal(40),new BigDecimal(20)),
+	BARRACAO_MADEIRA(new BigDecimal(25),new BigDecimal(20)),
+	BARRAGEM(new BigDecimal(50),new BigDecimal(20)),
+	CAIXA_MISTURA(new BigDecimal(40),new BigDecimal(0)),
+	CASA_ALVENARIA_SEDE(new BigDecimal(40),new BigDecimal(20)),
+	CASA_MADEIRA_SEDE(new BigDecimal(25),new BigDecimal(20)),
+	CASA_ALVENARIA_ADMINISTRADOR(new BigDecimal(40),new BigDecimal(20)),
+	CASA_MADEIRA_ADMINISTRADOR(new BigDecimal(25),new BigDecimal(20)),
+	CASA_ALVENARIA_EMPREGADOS(new BigDecimal(40),new BigDecimal(20)),
+	CASA_MADEIRA_EMPREGADOS(new BigDecimal(25),new BigDecimal(20)),
+	CASA_METEOROLOGIA_HIDROLOGIA(new BigDecimal(40),new BigDecimal(0)),
+	CERCA_INTERNA(new BigDecimal(25),new BigDecimal(20)),
+	CERCA_EXTERNA(new BigDecimal(25),new BigDecimal(20)),
+	CISTERNA(new BigDecimal(40),new BigDecimal(0)),
+	ESCRITORIO_ALVENARIA(new BigDecimal(40),new BigDecimal(20)),
+	ESCRITORIO_MADEIRA(new BigDecimal(25),new BigDecimal(20)),
+	ELETRIFICACAO_RURAL(new BigDecimal(40),new BigDecimal(20)),
+	GALPAO_ALVENARIA(new BigDecimal(40),new BigDecimal(20)),
+	GALPAO_MADEIRA(new BigDecimal(25),new BigDecimal(20)),
+	GALPAO_METALICO(new BigDecimal(40),new BigDecimal(20)),
+	GALPAO_BENEFICIAMENTO(new BigDecimal(40),new BigDecimal(0)),
+	GALPAO_DEFENSIVOS(new BigDecimal(40),new BigDecimal(0)),
+	GALPAO_PRODUTOS(new BigDecimal(40),new BigDecimal(0)),
+	LAVADOR_MAQUINAS(new BigDecimal(40),new BigDecimal(0)),
+	OFICINA_MECANICA_ALVENARIA(new BigDecimal(40),new BigDecimal(20)),
+	OFICINA_MECANICA_MADEIRA(new BigDecimal(25),new BigDecimal(20)),
+	PAIOL_ALVENARIA(new BigDecimal(40),new BigDecimal(20)),
+	PAIOL_MADEIRA(new BigDecimal(25),new BigDecimal(20)),
+	POCO_ARTESIANO(new BigDecimal(40),new BigDecimal(20)),
+	REFEITORIO(new BigDecimal(40),new BigDecimal(0)),
+	REPRESA(new BigDecimal(50),new BigDecimal(20)),
+	RODOLUVIO(new BigDecimal(40),new BigDecimal(0)),
+	TANQUE(new BigDecimal(40),new BigDecimal(20)),
+	TERREIRO_ASFALTO(new BigDecimal(40),new BigDecimal(20)),
+	TERREIRO_CONCRETO(new BigDecimal(40),new BigDecimal(20)),
+	TERREIRO_TERRA_BATIDA(new BigDecimal(0),new BigDecimal(0)),
+	TULHA_ALVENARIA(new BigDecimal(40),new BigDecimal(20)),
+	TULHA_CONCRETO(new BigDecimal(40),new BigDecimal(20)),
+	TULHA_MADEIRA(new BigDecimal(25),new BigDecimal(20)),
+	OUTROS(new BigDecimal(0),new BigDecimal(0));
 	
 	
-	private final int valor;
+	private final BigDecimal valor;
 
-	private final double valorResidual;
+	private final BigDecimal valorResidual;
 	 
-    private TipoInstalacao(int valor, double valorResidual) {
+    private TipoInstalacao(BigDecimal valor, BigDecimal valorResidual) {
         this.valor = valor;
 		this.valorResidual = valorResidual;
     }
 
-    public int getValor() {
+    public BigDecimal getValor() {
     	//BigDecimal valorFinal = 
         return this.valor;
     }
 
-	public double getValorResidual(){
+	public BigDecimal getValorResidual(){
 		return this.valorResidual;
 	}
 
