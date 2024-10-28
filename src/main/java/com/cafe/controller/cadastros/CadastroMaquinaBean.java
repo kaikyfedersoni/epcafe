@@ -92,6 +92,10 @@ public class CadastroMaquinaBean implements Serializable {
 	public void carregaVidaUtil() {
 		this.maquina.setVidaUtil(maquina.getTipo().getValor());
 	}
+
+	public void carregaValorResidual(){
+		this.instalacao.setValorResidual(instalacao.getTipo().getValorResidual());
+	}
 	
 	
 	public void salvar() {
