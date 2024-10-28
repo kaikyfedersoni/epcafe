@@ -62,10 +62,10 @@ public class Maquina {
 	private BigDecimal consumoMedio = new BigDecimal(0.0);
 
 	@PositiveOrZero
-	private Integer vidaUtil;
+	private BigDecimal vidaUtil;
 
 	@PositiveOrZero
-	private double valorResidual;
+	private BigDecimal valorResidual;
 
 	@NotNull
 	private LocalDate dataCompra;
