@@ -31,7 +31,7 @@
 				outcome="/restricted/custos/RelatorioDespesaFertilizante.xhtml"></menuitem2>
 		</submenu2>
 
-		<submenu2 label="Custos FIxos">
+		<submenu2 label="Custos Fixos">
 		<menuitem2 value="Exibir custo fixo totsl"
 				outcome="/restricted/custos/ExibirCustoFixo.xhtml"></menuitem2>
 		<menuitem2 value="Calcular Depreciação"
