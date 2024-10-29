@@ -20,7 +20,7 @@ public class CalcularDepreciacaoService{
 		BigDecimal valorResidual = maquina.getValorResidual();
 		BigDecimal valorSubtrai = new BigDecimal(1);
 		BigDecimal valorDivide = new BigDecimal(100);
-		BigDecimal area = unidade.getArea();
+		BigDecimal area = talhao.getArea();
 		BigDecimal horasTrabalhadas = despesaMaquina.getTempoTrabalhado();
 		BigDecimal horasPorHectare = horasTrabalhadas.divide(area);
 		
@@ -34,14 +34,14 @@ public class CalcularDepreciacaoService{
 		return valor;
 	}
 	
-	public BigDecimal calcularDepreciacaoInstalacao(Instalacao instalacao, Unidade unidade) {
+	public BigDecimal calcularDepreciacaoInstalacao(Instalacao instalacao, Unidade unidade,Talhao talhao) {
 		
 		BigDecimal valor = new BigDecimal(0);
 		BigDecimal valorDoBem = instalacao.getValor();
 		BigDecimal vidaUtil = instalacao.getVidaUtil();
 		BigDecimal valorResidual = instalacao.getValorResidual();
 		BigDecimal taxaDeOcupacao = new BigDecimal(0.33);
-		BigDecimal area = unidade.getArea();
+		BigDecimal area = talhao.getArea();
 		BigDecimal valorSubtrai = new BigDecimal(1);
 		BigDecimal valorDivide = new BigDecimal(100);
 		

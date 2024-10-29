@@ -124,3 +124,8 @@ public enum TipoAuxiliarMaquinas {
     public BigDecimal getValor() {
         return this.valor;
     }
+    
+    public BigDecimal getValorResidual() {
+    	return this.valorResidual;
+    }
+}

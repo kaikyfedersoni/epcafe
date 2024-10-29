@@ -1,5 +1,6 @@
 package com.cafe.modelo;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import javax.persistence.Column;

@@ -1,5 +1,6 @@
 package com.cafe.modelo;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import javax.persistence.Column;
@@ -43,7 +44,7 @@ public class Talhao {
 	private String nome;
 	
 	@PositiveOrZero
-	private float area;
+	private BigDecimal area;
 
 	@NotNull
 	@ManyToOne
