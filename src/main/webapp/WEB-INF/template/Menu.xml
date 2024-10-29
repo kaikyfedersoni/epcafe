@@ -30,6 +30,14 @@
 			<menuitem2 value="Despesas de Fertilizantes"
 				outcome="/restricted/custos/RelatorioDespesaFertilizante.xhtml"></menuitem2>
 		</submenu2>
+
+		<submenu2 label="Custos FIxos">
+		<menuitem2 value="Exibir custo fixo totsl"
+				outcome="/restricted/custos/ExibirCustoFixo.xhtml"></menuitem2>
+		<menuitem2 value="Calcular Depreciação"
+				outcome="/restricted/custos/CalcularDepreciacao.xhtml"></menuitem2>
+		</submenu2>
+		
 	</submenu>
 
 	<submenu label="Admin" icon="pi pi-home">
