@@ -1,5 +1,6 @@
 package com.cafe.service;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import com.cafe.modelo.DespesaMaquina;
@@ -8,13 +9,22 @@ import com.cafe.modelo.Maquina;
 import com.cafe.modelo.Talhao;
 import com.cafe.modelo.Unidade;
 
-public class CalcularDepreciacaoService{
+import lombok.extern.log4j.Log4j;
+
+@Log4j
+public class CalcularDepreciacaoService implements Serializable{
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public BigDecimal calcularDepreciacaoMaquina(Maquina maquina, Talhao talhao, Unidade unidade, DespesaMaquina despesaMaquina) {
 		
 		BigDecimal valor = new BigDecimal(0);
 		BigDecimal valorDoBem = maquina.getValor();
-		BigDecimal vidaUtil = maquina.getValor();
+		BigDecimal vidaUtil = maquina.getVidaUtil();
 		BigDecimal valorEmHoras = new BigDecimal(8760);
 		BigDecimal vidaUtilEmHoras = vidaUtil.multiply(valorEmHoras);
 		BigDecimal valorResidual = maquina.getValorResidual();
@@ -31,6 +41,7 @@ public class CalcularDepreciacaoService{
 				.divide(vidaUtilEmHoras)
 				.multiply(horasPorHectare);
 		
+
 		return valor;
 	}
 	
