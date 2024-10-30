@@ -7,7 +7,22 @@
 	xmlns:o="http://omnifaces.org/ui">
 
 	<ui:define name="titulo">Calcular Depreciação</ui:define>
+<h:form id="depreciacaoForm">
 
+			<p:panel header="Calcular Depreciação de Máquina">
+				<p:commandButton value="Calcular Depreciação da Máquina" action="#{calcularDepreciacaoBean.calcularDepreciacaoMaquina}" update="resultado" />
+			</p:panel>
+
+			<p:panel header="Calcular Depreciação de Instalação">
+				<p:commandButton value="Calcular Depreciação da Instalação" action="#{calcularDepreciacaoBean.calcularDepreciacaoInstalacao}" update="resultado" />
+			</p:panel>
+
+			<p:panel header="Resultado">
+				<p:outputLabel value="Valor da Depreciação Calculada: " />
+				<h:outputText id="resultado" value="#{calcularDepreciacaoBean.valorDepreciacao}" />
+			</p:panel>
+
+		</h:form>
 	<ui:define name="corpo">
 		
 	</ui:define>
