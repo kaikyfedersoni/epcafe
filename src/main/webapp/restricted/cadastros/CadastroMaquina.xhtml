@@ -172,6 +172,14 @@
 					symbolPosition="s" minValue="0" decimalPlaces="0" required="true"
 					validatorMessage="A vida útil é obrigatória.">
 				</p:inputNumber>
+				
+				<p:outputLabel value="Valor Residual" for="valorResidual" />
+				<p:inputNumber id="valorResidual"
+					value="#{cadastroMaquinaBean.maquina.valorResidual}" symbol=" %"
+					symbolPosition="s" minValue="0" decimalPlaces="0" required="true"
+					validatorMessage="O valor residual é obrigatória.">
+				</p:inputNumber>
+				
 
 			</p:panelGrid>
 			<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
