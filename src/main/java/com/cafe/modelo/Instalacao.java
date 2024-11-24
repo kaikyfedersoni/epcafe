@@ -61,6 +61,8 @@ public class Instalacao {
 	private BigDecimal vidaUtil;
 	@PositiveOrZero
 	private BigDecimal valorResidual;
+	@PositiveOrZero
+	private BigDecimal taxaDeOcupacao;
 
 	@NotNull
 	@ManyToOne

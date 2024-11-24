@@ -118,6 +118,13 @@
 	    				value="#{cadastroUnidadeBean.unidade.endereco.referencia}" />	 
 	    			<p:watermark for="referencia" value="Um local próximo conhecido" />
 	    		</h:panelGroup>	
+	    		
+	    		<p:outputLabel value="Área" for="area" />
+				<p:inputNumber id="area"
+					value="#{cadastroUnidadeBean.unidade.area}" symbol=" ha"
+					symbolPosition="s" minValue="0" decimalPlaces="0" required="true"
+					validatorMessage="A área é obrigatória.">
+				</p:inputNumber>
 	    		  		
 	    		
 	    	</p:panelGrid>

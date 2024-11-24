@@ -41,21 +41,25 @@ public class CalcularDepreciacaoService implements Serializable{
 
 	    List<BigDecimal> depreciacoes = new ArrayList<>();
 	    BigDecimal valorDoBem = maquina.getValor();
-	    BigDecimal vidaUtilEmHoras = new BigDecimal(30000);
+	    BigDecimal vidaUtilEmHoras = maquina.getVidaUtilHoras();
 	    BigDecimal valorResidual = maquina.getValorResidual();
 	    BigDecimal valorSubtrai = new BigDecimal(1);
 	    BigDecimal valorDivide = new BigDecimal(100);
+	    BigDecimal taxaDeOcupacao = maquina.getTaxaDeOcupacao();
 	    BigDecimal horasTrabalhadas = despesaMaquina.getTempoTrabalhado();
 	    BigDecimal depreciacaoTalhao = BigDecimal.ZERO;
 	    BigDecimal areaTotal = unidade.getArea();
 
-	    BigDecimal depreciacao = valorDoBem
+	    BigDecimal depreciacaoTotal = valorDoBem
                 .multiply(valorSubtrai
                         .subtract(valorResidual.divide(valorDivide, 2, RoundingMode.DOWN)))
                 .divide(vidaUtilEmHoras, 2, RoundingMode.DOWN)
-                .multiply(horasTrabalhadas).divide(new BigDecimal(2),2, RoundingMode.DOWN);
+                .multiply(horasTrabalhadas); // depreciacao total
+	    depreciacoes.add(depreciacaoTotal);
+	    
+	    BigDecimal depreciacao = depreciacaoTotal.multiply(taxaDeOcupacao.divide(new BigDecimal(100)));
 	    depreciacoes.add(depreciacao);
-	   
+	    
 	    for (Talhao talhao : talhoes) {
 	        BigDecimal areaTalhao = talhao.getArea();
 	        depreciacaoTalhao = depreciacao.multiply(areaTalhao.divide(areaTotal, 4, RoundingMode.UP));
@@ -67,25 +71,32 @@ public class CalcularDepreciacaoService implements Serializable{
 	}
 
 	
-	public BigDecimal calcularDepreciacaoInstalacao(Instalacao instalacao, Unidade unidade,Talhao talhao) {
+	public List<BigDecimal> calcularDepreciacaoInstalacao(Instalacao instalacao, Unidade unidade,List<Talhao> talhoes) {
 		
-		BigDecimal valor = new BigDecimal(0);
+		BigDecimal depreciacaoTotal = new BigDecimal(0);
 		BigDecimal valorDoBem = instalacao.getValor();
 		BigDecimal vidaUtil = instalacao.getVidaUtil();
 		BigDecimal valorResidual =  instalacao.getValorResidual();
-		BigDecimal taxaDeOcupacao = new BigDecimal(0.33);
-		BigDecimal area = talhao.getArea();
-		BigDecimal valorSubtrai = new BigDecimal(1);
-		BigDecimal valorDivide = new BigDecimal(100);
+		BigDecimal taxaDeOcupacao = instalacao.getTaxaDeOcupacao();
+		List<BigDecimal> depreciacoes = new ArrayList<>();
+		BigDecimal depreciacaoTalhao = BigDecimal.ZERO;
+	    BigDecimal areaTotal = unidade.getArea();
 		
-		valor = valorDoBem
-				.multiply(valorSubtrai
-						.subtract(valorResidual
-								.divide(valorDivide,2,RoundingMode.DOWN)))
-				.divide(vidaUtil,2,RoundingMode.DOWN)
-				.multiply(taxaDeOcupacao
-						.divide(area,2,RoundingMode.DOWN));
-		return valor;
+		depreciacaoTotal = valorDoBem
+						.subtract(valorResidual)
+								.divide(vidaUtil,4,RoundingMode.UP)
+								.multiply(taxaDeOcupacao.divide(new BigDecimal(100)));
+		depreciacoes.add(depreciacaoTotal);
+		
+		for (Talhao talhao : talhoes) {
+	        BigDecimal areaTalhao = talhao.getArea();
+	        depreciacaoTalhao = depreciacaoTotal.multiply(areaTalhao.divide(areaTotal, 4, RoundingMode.UP));
+	        depreciacoes.add(depreciacaoTalhao);
+	    }
+		
+		return depreciacoes;
+
+		
 	}
 		
 	

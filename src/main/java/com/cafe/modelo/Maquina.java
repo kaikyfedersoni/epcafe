@@ -66,6 +66,12 @@ public class Maquina {
 
 	@PositiveOrZero
 	private BigDecimal valorResidual;
+	
+	@PositiveOrZero
+	private BigDecimal taxaDeOcupacao; // taxa de ocupacao de lavoura de café
+	
+	@PositiveOrZero
+	private BigDecimal vidaUtilHoras;
 
 	@NotNull
 	private LocalDate dataCompra;

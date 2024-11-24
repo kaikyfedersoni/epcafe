@@ -1,31 +1,165 @@
 <ui:composition 
- 	template="/WEB-INF/template/LayoutPadrao.xhtml"
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:o="http://omnifaces.org/ui">
+  template="/WEB-INF/template/LayoutPadrao.xhtml"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:o="http://omnifaces.org/ui">
 
-	<ui:define name="titulo">Calcular Depreciação</ui:define>
+    <ui:define name="titulo">Calcular Depreciação</ui:define>
 
-	<ui:define name="corpo">
-		<h:form id="depreciacaoForm">
+    <ui:define name="corpo">
+        <h:form id="depreciacaoForm">
 
-			<p:panel header="Calcular Depreciação de Máquina">
-				<p:commandButton value="Calcular Depreciação da Máquina" action="#{calcularDepreciacaoBean.calcularDepreciacaoMaquina}" update="resultado" />
-			</p:panel>
+            <!-- Seleção de Máquina -->
+            <p:panel header="Selecione uma Máquina">
+                <p:outputLabel value="Máquina: " for="maquinaSelect" />
+                <p:selectOneMenu id="maquinaSelect" value="#{calcularDepreciacaoBean.maquinaSelecionada}" 
+                                 converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="Selecione" itemValue="#{null}" />
+                    <f:selectItems value="#{calcularDepreciacaoBean.maquinas}" var="maquina" 
+                                   itemValue="#{maquina}" itemLabel="#{maquina.nome}" />
+                </p:selectOneMenu>
+            </p:panel>
 
-			<p:panel header="Calcular Depreciação de Instalação">
-				<p:commandButton value="Calcular Depreciação da Instalação" action="#{calcularDepreciacaoBean.calcularDepreciacaoInstalacao}" update="resultado" />
-			</p:panel>
+            <!-- Seleção de Despesa -->
+            <p:panel header="Selecione uma Despesa">
+                <p:outputLabel value="Despesa Máquina: " for="despesaSelect" />
+                <p:selectOneMenu id="despesaSelect" value="#{calcularDepreciacaoBean.despesaMaquinaSelecionada}" 
+                                 converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="Selecione" itemValue="#{null}" />
+                    <f:selectItems value="#{calcularDepreciacaoBean.despesasMaquinas}" var="despesa" 
+                                   itemValue="#{despesa}" itemLabel="#{despesa.maquina.nome}" />
+                </p:selectOneMenu>
+            </p:panel>
+            
+            <!-- Seleção de Máquina -->
+            <p:panel header="Selecione uma Instalacao">
+                <p:outputLabel value="Instalação " for="instalacaoSelect" />
+                <p:selectOneMenu id="instalacaoSelect" value="#{calcularDepreciacaoBean.instalacaoSelecionada}" 
+                                 converter="omnifaces.SelectItemsConverter">
+                    <f:selectItem itemLabel="Selecione" itemValue="#{null}" />
+                    <f:selectItems value="#{calcularDepreciacaoBean.instalacoes}" var="instalacao" 
+                                   itemValue="#{instalacao}" itemLabel="#{instalacao.nome}" />
+                </p:selectOneMenu>
+            </p:panel>
 
-			<p:panel header="Resultado">
-				<p:outputLabel value="Valor da Depreciação Calculada: "/>
-				<h:outputText id="resultado" value="#{calcularDepreciacaoBean.valorDepreciacao}" />
-			</p:panel>
+            <!-- Botão para Calcular Maquina-->
+            <p:panel header="Calcular Depreciação de Máquina">
+                <p:commandButton value="Calcular Depreciação da Máquina" 
+                                 action="#{calcularDepreciacaoBean.calcularDepreciacaoMaquina}" 
+                                 update="detalhesMaquina resultadoTalhoesMaquina" />
+            </p:panel>
+            
+             <!-- Botão para Calcular Instalacao -->
+            <p:panel header="Calcular Depreciação de Instalacão">
+                <p:commandButton value="Calcular Depreciação da Instalacão" 
+                                 action="#{calcularDepreciacaoBean.calcularDepreciacaoInstalacao}" 
+                                 update="detalhesInstalacao resultadoTalhoesInstalacao" />
+            </p:panel>
 
-		</h:form>
-	</ui:define>
+            <!-- Detalhes da Instalacao e Depreciação Total -->
+            <p:panel id="detalhesInstalacao" header="Detalhes da Instalacao e Depreciação">
+                <p:outputLabel value="Nome da Instalacao: " />
+                <h:outputText value="#{calcularDepreciacaoBean.instalacaoSelecionada.nome}" /><br />
+
+                <p:outputLabel value="Valor do Bem: " />
+                <h:outputText value="#{calcularDepreciacaoBean.instalacaoSelecionada.valor}" /><br />
+
+                <p:outputLabel value="Valor Residual (%): " />
+                <h:outputText value="#{calcularDepreciacaoBean.instalacaoSelecionada.valorResidual}" /><br />
+
+                <p:outputLabel value="Vida Útil (anos): " />
+                <h:outputText value="#{calcularDepreciacaoBean.instalacaoSelecionada.vidaUtil}" /><br />
+                
+                <p:outputLabel value="Taxa De Ocupação (%): " />
+                <h:outputText value="#{calcularDepreciacaoBean.instalacaoSelecionada.taxaDeOcupacao}" /><br />
+                
+                <p:outputLabel value="Depreciação Total: " />
+                <h:outputText value="#{calcularDepreciacaoBean.resultadosDepreciacaoInstalacao[0]}" /><br />
+                
+                
+            </p:panel>
+            
+             <!-- Detalhes da Máquina e Depreciação Total -->
+            <p:panel id="detalhesMaquina" header="Detalhes da Máquina e Depreciação">
+                <p:outputLabel value="Nome da Máquina: " />
+                <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.nome}" /><br />
+
+                <p:outputLabel value="Valor do Bem: " />
+                <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.valor}" /><br />
+
+                <p:outputLabel value="Valor Residual (%): " />
+                <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.valorResidual}" /><br />
+
+                <p:outputLabel value="Vida Útil (anos): " />
+                <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.vidaUtil}" /><br />
+                
+                <p:outputLabel value="Taxa De Ocupação (%): " />
+                <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.taxaDeOcupacao}" /><br />
+                
+                 <p:outputLabel value="Vida Útil em Horas: " />
+                <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.vidaUtilHoras}" /><br />
+
+                <p:outputLabel value="Tempo Trabalhado: " />
+                <h:outputText value="#{calcularDepreciacaoBean.despesaMaquinaSelecionada.tempoTrabalhado}" /><br />
+
+                <p:outputLabel value="Depreciação Total: " />
+                <h:outputText value="#{calcularDepreciacaoBean.resultadosDepreciacaoMaquina[0]}" /><br />
+                
+                <p:outputLabel value="Depreciação Total das lavouras de café: " />
+                <h:outputText value="#{calcularDepreciacaoBean.resultadosDepreciacaoMaquina[1]}" />
+            </p:panel>
+
+            <!-- Resultado por Talhão -->
+            <p:panel id="resultadoTalhoesMaquina" header="Depreciação por Talhão">
+                <p:dataTable value="#{calcularDepreciacaoBean.talhoes}" var="talhao" id="tabelaTalhoes">
+                    <!-- Nome do Talhão -->
+                    <p:column>
+                        <f:facet name="header">Nome do Talhão</f:facet>
+                        <h:outputText value="#{talhao.nome}" />
+                    </p:column>
+
+                    <!-- Área do Talhão -->
+                    <p:column>
+                        <f:facet name="header">Área (ha)</f:facet>
+                        <h:outputText value="#{talhao.area}" />
+                    </p:column>
+
+                    <!-- Depreciação do Talhão  -->
+                    <p:column>
+                        <f:facet name="header">Depreciação</f:facet>
+                        <h:outputText value="#{calcularDepreciacaoBean.resultadosDepreciacaoMaquina[calcularDepreciacaoBean.talhoes.indexOf(talhao) + 2]}" />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            
+             <!-- Resultado por Talhão Instalcao -->
+            <p:panel id="resultadoTalhoesInstalacao" header="Depreciação por Talhão">
+                <p:dataTable value="#{calcularDepreciacaoBean.talhoes}" var="talhao" id="tabelaTalhoesInstalacao">
+                    <!-- Nome do Talhão -->
+                    <p:column>
+                        <f:facet name="header">Nome do Talhão</f:facet>
+                        <h:outputText value="#{talhao.nome}" />
+                    </p:column>
+
+                    <!-- Área do Talhão -->
+                    <p:column>
+                        <f:facet name="header">Área (ha)</f:facet>
+                        <h:outputText value="#{talhao.area}" />
+                    </p:column>
+
+                    <!-- Depreciação do Talhão -->
+                    <p:column>
+                        <f:facet name="header">Depreciação</f:facet>
+                        <h:outputText value="#{calcularDepreciacaoBean.resultadosDepreciacaoInstalacao[calcularDepreciacaoBean.talhoes.indexOf(talhao) + 1]}" />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+
+        </h:form>
+    </ui:define>
 
 </ui:composition>
