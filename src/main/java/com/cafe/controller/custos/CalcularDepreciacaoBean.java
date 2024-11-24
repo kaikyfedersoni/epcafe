@@ -14,6 +14,7 @@ import com.cafe.modelo.Instalacao;
 import com.cafe.modelo.Maquina;
 import com.cafe.modelo.Talhao;
 import com.cafe.modelo.Unidade;
+import com.cafe.modelo.to.CalcularDepreciacaoMaquinaDTO;
 import com.cafe.service.CalcularDepreciacaoService;
 import com.cafe.service.DespesaMaquinaService;
 import com.cafe.service.InstalacaoService;
@@ -39,13 +40,13 @@ public class CalcularDepreciacaoBean implements Serializable {
 
     private List<Maquina> maquinas;
     private List<Talhao> talhoes;
+    private List<Instalacao> instalacoes;
+    private List<DespesaMaquina> despesasMaquinas;
     private Unidade unidade;
     private DespesaMaquina despesaMaquina;
-    private Maquina maquinaSelecionada;
-    private Talhao talhaoSelecionado;
-    private Unidade unidadeSelecionada;
-    private List<Instalacao> instalacoes;
-    private Instalacao instalacaoSelecionada;
+    private Maquina maquina;
+    private Talhao talhao;
+    private Instalacao instalacao;
     private BigDecimal valorDepreciacao;
 
     @Inject
@@ -72,44 +73,31 @@ public class CalcularDepreciacaoBean implements Serializable {
         maquinas = maquinaService.buscarMaquinasAlfabetico(loginBean.getTenantId());
         talhoes = talhaoService.buscarTalhoes(loginBean.getTenantId()); 
         unidade = loginBean.getUsuario().getUnidade();
+        despesasMaquinas = despesaMaquinaService.buscarDespesasMaquinas(unidade);
         instalacoes = instalacaoService.buscarInstalacoes(loginBean.getTenantId());
         
-        limpar(); // Inicializa variáveis com valores padrão para evitar null pointers
+
     }
 
-    public void limpar() {
-        // Inicializa as variáveis para evitar NullPointerException
-        maquinaSelecionada = new Maquina();
-        talhaoSelecionado = new Talhao();
-        unidadeSelecionada = new Unidade();
-        despesaMaquina = new DespesaMaquina();
-        instalacaoSelecionada = new Instalacao();
-        valorDepreciacao = BigDecimal.ZERO;
-    }
-
+ 
     public BigDecimal calcularDepreciacaoMaquina() {
-        log.info("Calculando depreciação para a máquina: " + maquinaSelecionada);
-        
-        // Verifica se os parâmetros necessários não estão nulos
-        if (maquinaSelecionada != null && talhaoSelecionado != null && unidadeSelecionada != null && despesaMaquina != null) {
-            valorDepreciacao = calcularDepreciacaoService.calcularDepreciacaoMaquina(maquinaSelecionada, talhaoSelecionado, unidadeSelecionada, despesaMaquina);
-            MessageUtil.sucesso("Depreciação calculada com sucesso: " + valorDepreciacao);
-        } else {
-            MessageUtil.erro("Não foi possível calcular a depreciação. Verifique os dados selecionados.");
-        }
-
-        return valorDepreciacao;
+  
+    	log.info("Máquina: " + maquina);
+    	log.info("Talhão: " + talhoes);
+    	log.info("Despesa Máquina: " + despesaMaquina);
+    	log.info("Unidade: " + unidade);
+    	log.info("Calculando depreciação para a máquina: " + maquina);
+    	 
+    //	 valorDepreciacao = calcularDepreciacaoService.calcularDepreciacaoMaquina(this.maquina, this.talhoes, this.despesaMaquina, this.unidade);
+    	    return valorDepreciacao;
     }
 
     public void calcularDepreciacaoInstalacao() {
         log.info("Calculando depreciação para a instalação...");
-
-        // Verifica se os parâmetros necessários não estão nulos
-        if (instalacaoSelecionada != null && unidadeSelecionada != null && talhaoSelecionado != null) {
-            valorDepreciacao = calcularDepreciacaoService.calcularDepreciacaoInstalacao(instalacaoSelecionada, unidadeSelecionada, talhaoSelecionado);
+            valorDepreciacao = calcularDepreciacaoService.calcularDepreciacaoInstalacao(instalacao, unidade, talhao);
             MessageUtil.sucesso("Depreciação calculada com sucesso: " + valorDepreciacao);
-        } else {
-            MessageUtil.erro("Não foi possível calcular a depreciação da instalação. Verifique os dados selecionados.");
-        }
+       
     }
+    
+  
 }
