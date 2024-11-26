@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import com.cafe.modelo.DespesaMaquina;
-import com.cafe.modelo.Funcionario;
 import com.cafe.modelo.Instalacao;
 import com.cafe.modelo.Maquina;
 import com.cafe.modelo.Unidade;
@@ -34,7 +33,7 @@ public class LancarOutrosCustosService implements Serializable{
 		BigDecimal taxaDeManutencao = new BigDecimal(0.01);
 		
 		valor = valorDoBem.multiply(taxaDeManutencao)
-				.divide(area,4,RoundingMode.UP);
+				.divide(area,2,RoundingMode.UP);
 		return valor;
 	       
 	}
@@ -46,14 +45,17 @@ public class LancarOutrosCustosService implements Serializable{
 		BigDecimal valorDoBem = maquina.getValor();
 		BigDecimal vidaUtil = maquina.getVidaUtil();
 		BigDecimal vidaUtilHoras = maquina.getVidaUtilHoras();
+		BigDecimal razaoVida = vidaUtilHoras.divide(vidaUtil,2,RoundingMode.UP);
 		BigDecimal horasTrabalhadas = despesa.getTempoTrabalhado();
 		BigDecimal seguroEstipulado = new BigDecimal(0.0075);
 		
-		valorSeguro = ((valorDoBem.
-				divide(new BigDecimal(2)))
+		valorSeguro = (((valorDoBem.
+				divide(new BigDecimal(2),2,RoundingMode.UP))
 				.multiply(seguroEstipulado))
-				.divide((vidaUtilHoras.divide(vidaUtil)))
+				.divide(razaoVida,4,RoundingMode.UP))
 				.multiply(horasTrabalhadas);
+				
+				
 		
 		return valorSeguro;
 		

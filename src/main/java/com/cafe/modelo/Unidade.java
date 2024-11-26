@@ -40,6 +40,8 @@ import lombok.ToString;
 @ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @Entity
+@Getter
+@Setter
 @NamedQueries({
 	@NamedQuery(name="Unidade.buscarTodos", query="select u from Unidade u where u.tenant_id = :tenantId"),	
 	@NamedQuery(name="Unidade.buscarNomesUnidades", query="select u.nome from Unidade u where u.tenant_id = :tenantId")	
@@ -77,68 +79,7 @@ public class Unidade implements Serializable {
 	private BigDecimal area;
 	
 	
-	public BigDecimal getArea() {
-		return area;
-	}
 	
-	public void setArea(BigDecimal area) {
-		this.area = area;
-		
-	}
-	
-	public void setTenant_id(Long tenant_id) {
-		this.tenant_id = tenant_id;
-	}
-	
-	public Long getTenant_id() {
-		return tenant_id;
-	}
-	
-	public Long getCodigo() {
-		return codigo;
-	}
-	
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
-	}
-	
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public String getNome() {
-		return nome;
-	}
-	
-	public void setContato(String contato) {
-		this.contato = contato;
-	}
-	
-	public String getContato() {
-		return contato;
-	}
-	
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-	
-	public Endereco getEndereco() {
-		return endereco;
-	}
-	
-	public void setTipo(TipoPropriedade tipo) {
-		this.tipo = tipo;
-	}
-	
-	public TipoPropriedade getTipo() {
-		return tipo;
-	}
-	
-	public void setTalhoes(List<Talhao> talhoes) {
-		this.talhoes = talhoes;
-	}
-	public List<Talhao> getTalhoes(){
-		return talhoes;
-	}
 	/*
 	 * Datas de Criação e Modificação
 	 */

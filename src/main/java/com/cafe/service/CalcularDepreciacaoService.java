@@ -13,9 +13,7 @@ import com.cafe.modelo.Instalacao;
 import com.cafe.modelo.Maquina;
 import com.cafe.modelo.Talhao;
 import com.cafe.modelo.Unidade;
-import com.cafe.modelo.to.CalcularDepreciacaoMaquinaDTO;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

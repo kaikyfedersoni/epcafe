@@ -32,8 +32,8 @@
 		</submenu2>
 
 		<submenu2 label="Custos Fixos">
-		<menuitem2 value="Exibir custo fixo totsl"
-				outcome="/restricted/custos/ExibirCustoFixo.xhtml"></menuitem2>
+		<menuitem2 value="Outros Custos"
+				outcome="/restricted/custos/OutrosCustos.xhtml"></menuitem2>
 		<menuitem2 value="Calcular Depreciação"
 				outcome="/restricted/custos/CalcularDepreciacao.xhtml"></menuitem2>
 		</submenu2>
