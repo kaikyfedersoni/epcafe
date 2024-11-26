@@ -1,5 +1,6 @@
 package com.cafe.modelo;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.Period;
@@ -57,7 +58,7 @@ public class Funcionario {
 	private String nome;
 	
 	@PositiveOrZero
-	private float salario;
+	private BigDecimal salario;
 	
 	@NotNull
 	private LocalDate dataNascimento;

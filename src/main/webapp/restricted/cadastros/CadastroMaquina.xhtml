@@ -179,14 +179,14 @@
 					validatorMessage="O valor residual é obrigatória.">
 				</p:inputNumber>
 				
-				<p:outputLabel value="Taxa de Ocupação" for="taxaDeOcupacao" />
+				<p:outputLabel value="Taxa de Ocupação (?)" for="taxaDeOcupacao" />
 				<p:inputNumber id="taxaDeOcupacao"
-					value="#{cadastroMaquinaBean.maquina.taxaDeOcupacao}" symbol=" %"
+					value="#{cadastroMaquinaBean.maquina.taxaDeOcupacao}" symbol=" % "
 					symbolPosition="s" minValue="0" decimalPlaces="0" required="true"
 					validatorMessage="A taxa de ocupação é obrigatória.">
 				</p:inputNumber>
 				
-				<p:outputLabel value="Vida útil em Horas" for="vidaUtilHoras" />
+				<p:outputLabel value="Vida útil em Horas (?)" for="vidaUtilHoras" />
 				<p:inputNumber id="vidaUtilHoras"
 					value="#{cadastroMaquinaBean.maquina.vidaUtilHoras}" symbol=" HORAS"
 					symbolPosition="s" minValue="0" decimalPlaces="0" required="true"
