@@ -3,6 +3,8 @@ package com.cafe.service;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.Instalacao;
@@ -26,22 +28,28 @@ public class LancarOutrosCustosService implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public BigDecimal calcularManutencaoInstalacao(Instalacao instalacao,Unidade unidade){
-		BigDecimal valor = new BigDecimal(0);
+	public List<BigDecimal> calcularManutencaoInstalacao(Instalacao instalacao,Unidade unidade){
+		List<BigDecimal> valores = new ArrayList<>();
 		BigDecimal valorDoBem =  instalacao.getValor();
 		BigDecimal area = unidade.getArea();
 		BigDecimal taxaDeManutencao = new BigDecimal(0.01);
 		
-		valor = valorDoBem.multiply(taxaDeManutencao)
+		BigDecimal valor = valorDoBem.multiply(taxaDeManutencao)
 				.divide(area,2,RoundingMode.UP);
-		return valor;
+		
+		BigDecimal valorMes = valor.divide(new BigDecimal(12),2,RoundingMode.UP);
+		
+		valores.add(valor);
+		valores.add(valorMes);
+		
+		return valores;
 	       
 	}
 
 	
-	public BigDecimal calcularSeguroEquipamento(Maquina maquina,DespesaMaquina despesa) {
+	public List<BigDecimal> calcularSeguroEquipamento(Maquina maquina,DespesaMaquina despesa) {
 		
-		BigDecimal valorSeguro = new BigDecimal(0);
+		List<BigDecimal> valoresSeguro = new ArrayList<>();
 		BigDecimal valorDoBem = maquina.getValor();
 		BigDecimal vidaUtil = maquina.getVidaUtil();
 		BigDecimal vidaUtilHoras = maquina.getVidaUtilHoras();
@@ -49,15 +57,18 @@ public class LancarOutrosCustosService implements Serializable{
 		BigDecimal horasTrabalhadas = despesa.getTempoTrabalhado();
 		BigDecimal seguroEstipulado = new BigDecimal(0.0075);
 		
-		valorSeguro = (((valorDoBem.
+		BigDecimal valorSeguro = (((valorDoBem.
 				divide(new BigDecimal(2),2,RoundingMode.UP))
 				.multiply(seguroEstipulado))
 				.divide(razaoVida,4,RoundingMode.UP))
 				.multiply(horasTrabalhadas);
-				
-				
 		
-		return valorSeguro;
+		BigDecimal valorSeguroMes = valorSeguro.divide(new BigDecimal(12),2,RoundingMode.UP);
+		
+		valoresSeguro.add(valorSeguro);
+		valoresSeguro.add(valorSeguroMes);
+
+		return valoresSeguro;
 		
 	}
 	

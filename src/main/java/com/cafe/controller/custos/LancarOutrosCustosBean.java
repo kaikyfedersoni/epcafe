@@ -15,7 +15,6 @@ import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.Instalacao;
 import com.cafe.modelo.Maquina;
 import com.cafe.modelo.Unidade;
-
 import com.cafe.service.DespesaMaquinaService;
 import com.cafe.service.InstalacaoService;
 import com.cafe.service.LancarOutrosCustosService;
@@ -44,8 +43,8 @@ public class LancarOutrosCustosBean implements Serializable {
     private DespesaMaquina despesaMaquinaSelecionada;
     private Maquina maquinaSelecionada;
     private Instalacao instalacaoSelecionada;
-    private List<BigDecimal> resultadosManutencaoInstalacao;
-    private List<BigDecimal> resultadosSeguroMaquina;
+    private List<List<BigDecimal>> resultadosManutencaoInstalacao;
+    private List<List<BigDecimal>> resultadosSeguroMaquina;
 
     @Inject
     private MaquinaService maquinaService;
@@ -61,7 +60,7 @@ public class LancarOutrosCustosBean implements Serializable {
 
     @Inject
     private DespesaMaquinaService despesaMaquinaService;
-    
+
     @Inject
     private LancarOutrosCustosService lancarOutrosCustosService;
 
@@ -74,18 +73,15 @@ public class LancarOutrosCustosBean implements Serializable {
         instalacoes = instalacaoService.buscarInstalacoes(loginBean.getTenantId());
         resultadosManutencaoInstalacao = calcularManutencaoParaTodasInstalacoes();
         resultadosSeguroMaquina = calcularSeguroParaTodasMaquinas();
-      
     }
 
-    public List<BigDecimal> calcularManutencaoParaTodasInstalacoes() {
+    public List<List<BigDecimal>> calcularManutencaoParaTodasInstalacoes() {
         try {
-            
-            List<BigDecimal> resultados = new ArrayList<>();
+            List<List<BigDecimal>> resultados = new ArrayList<>();
             for (Instalacao instalacao : instalacoes) {
-                BigDecimal resultado = lancarOutrosCustosService.calcularManutencaoInstalacao(instalacao, unidade);
-                resultados.add(resultado);
+                List<BigDecimal> valores = lancarOutrosCustosService.calcularManutencaoInstalacao(instalacao, unidade);
+                resultados.add(valores);
             }
-
             log.info("Cálculo de manutenção de instalações concluído.");
             return resultados;
         } catch (Exception e) {
@@ -94,21 +90,18 @@ public class LancarOutrosCustosBean implements Serializable {
             return Collections.emptyList();
         }
     }
-        
-    public List<BigDecimal> calcularSeguroParaTodasMaquinas() {
+
+    public List<List<BigDecimal>> calcularSeguroParaTodasMaquinas() {
         try {
-            
-            List<BigDecimal> resultados = new ArrayList<>();
-            
+            List<List<BigDecimal>> resultados = new ArrayList<>();
             for (Maquina maquina : maquinas) {
                 for (DespesaMaquina despesa : despesasMaquinas) {
                     if (despesa.getMaquina().equals(maquina)) {
-                        BigDecimal resultado = lancarOutrosCustosService.calcularSeguroEquipamento(maquina, despesa);
-                        resultados.add(resultado);
+                        List<BigDecimal> valores = lancarOutrosCustosService.calcularSeguroEquipamento(maquina, despesa);
+                        resultados.add(valores);
                     }
                 }
             }
-
             log.info("Cálculo de seguro de máquinas concluído.");
             return resultados;
         } catch (Exception e) {
@@ -117,5 +110,4 @@ public class LancarOutrosCustosBean implements Serializable {
             return Collections.emptyList();
         }
     }
-         
 }
