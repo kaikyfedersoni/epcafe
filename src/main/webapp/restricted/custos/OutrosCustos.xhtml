@@ -20,11 +20,11 @@
 					</p:column>
 					<p:column>
 						<f:facet name="header">Valor do Seguro</f:facet>
-						<h:outputText value="#{lancarOutrosCustosBean.resultadosSeguroMaquina[lancarOutrosCustosBean.maquinas.indexOf(maquina)][0]}" />
+						<h:outputText value="R$ #{lancarOutrosCustosBean.resultadosSeguroMaquina[lancarOutrosCustosBean.maquinas.indexOf(maquina)][0]}" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">Valor do Seguro por Mês</f:facet>
-						<h:outputText value="#{lancarOutrosCustosBean.resultadosSeguroMaquina[lancarOutrosCustosBean.maquinas.indexOf(maquina)][1]}" />
+						<h:outputText value="R$ #{lancarOutrosCustosBean.resultadosSeguroMaquina[lancarOutrosCustosBean.maquinas.indexOf(maquina)][1]}" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>
@@ -40,11 +40,11 @@
 					</p:column>
 					<p:column>
 						<f:facet name="header">Custo de Manutenção</f:facet>
-						<h:outputText value="#{lancarOutrosCustosBean.resultadosManutencaoInstalacao[lancarOutrosCustosBean.instalacoes.indexOf(instalacao)][0]}" />
+						<h:outputText value="R$ #{lancarOutrosCustosBean.resultadosManutencaoInstalacao[lancarOutrosCustosBean.instalacoes.indexOf(instalacao)][0]}" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">Custo de Manutenção por Mês</f:facet>
-						<h:outputText value="#{lancarOutrosCustosBean.resultadosManutencaoInstalacao[lancarOutrosCustosBean.instalacoes.indexOf(instalacao)][1]}" />
+						<h:outputText value="R$ #{lancarOutrosCustosBean.resultadosManutencaoInstalacao[lancarOutrosCustosBean.instalacoes.indexOf(instalacao)][1]}" />
 					</p:column>
 				</p:dataTable>
 			</p:panel>

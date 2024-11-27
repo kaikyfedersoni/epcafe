@@ -65,19 +65,19 @@
                 <h:outputText value="#{calcularDepreciacaoBean.instalacaoSelecionada.nome}" /><br />
 
                 <p:outputLabel value="Valor do Bem: " />
-                <h:outputText value="#{calcularDepreciacaoBean.instalacaoSelecionada.valor}" /><br />
+                <h:outputText value="R$ #{calcularDepreciacaoBean.instalacaoSelecionada.valor}" /><br />
 
                 <p:outputLabel value="Valor Residual (%): " />
                 <h:outputText value="#{calcularDepreciacaoBean.instalacaoSelecionada.valorResidual}" /><br />
 
                 <p:outputLabel value="Vida Útil (anos): " />
-                <h:outputText value="#{calcularDepreciacaoBean.instalacaoSelecionada.vidaUtil}" /><br />
+                <h:outputText value="#{calcularDepreciacaoBean.instalacaoSelecionada.vidaUtil} anos" /><br />
                 
                 <p:outputLabel value="Taxa De Ocupação (%): " />
                 <h:outputText value="#{calcularDepreciacaoBean.instalacaoSelecionada.taxaDeOcupacao}" /><br />
                 
                 <p:outputLabel value="Depreciação Total: " />
-                <h:outputText value="#{calcularDepreciacaoBean.resultadosDepreciacaoInstalacao[0]}" /><br />
+                <h:outputText value="R$ #{calcularDepreciacaoBean.resultadosDepreciacaoInstalacao[0]}" /><br />
                 
                 
             </p:panel>
@@ -88,28 +88,28 @@
                 <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.nome}" /><br />
 
                 <p:outputLabel value="Valor do Bem: " />
-                <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.valor}" /><br />
+                <h:outputText value="R$ #{calcularDepreciacaoBean.maquinaSelecionada.valor}" /><br />
 
                 <p:outputLabel value="Valor Residual (%): " />
                 <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.valorResidual}" /><br />
 
                 <p:outputLabel value="Vida Útil (anos): " />
-                <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.vidaUtil}" /><br />
+                <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.vidaUtil} anos" /><br />
                 
                 <p:outputLabel value="Taxa De Ocupação (%): " />
                 <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.taxaDeOcupacao}" /><br />
                 
                  <p:outputLabel value="Vida Útil em Horas: " />
-                <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.vidaUtilHoras}" /><br />
+                <h:outputText value="#{calcularDepreciacaoBean.maquinaSelecionada.vidaUtilHoras} horas" /><br />
 
                 <p:outputLabel value="Tempo Trabalhado: " />
-                <h:outputText value="#{calcularDepreciacaoBean.despesaMaquinaSelecionada.tempoTrabalhado}" /><br />
+                <h:outputText value="#{calcularDepreciacaoBean.despesaMaquinaSelecionada.tempoTrabalhado} horas" /><br />
 
                 <p:outputLabel value="Depreciação Total: " />
-                <h:outputText value="#{calcularDepreciacaoBean.resultadosDepreciacaoMaquina[0]}" /><br />
+                <h:outputText value="R$ #{calcularDepreciacaoBean.resultadosDepreciacaoMaquina[0]}" /><br />
                 
                 <p:outputLabel value="Depreciação Total das lavouras de café: " />
-                <h:outputText value="#{calcularDepreciacaoBean.resultadosDepreciacaoMaquina[1]}" />
+                <h:outputText value="R$ #{calcularDepreciacaoBean.resultadosDepreciacaoMaquina[1]}" />
             </p:panel>
 
             <!-- Resultado por Talhão -->
@@ -130,7 +130,7 @@
                     <!-- Depreciação do Talhão  -->
                     <p:column>
                         <f:facet name="header">Depreciação</f:facet>
-                        <h:outputText value="#{calcularDepreciacaoBean.resultadosDepreciacaoMaquina[calcularDepreciacaoBean.talhoes.indexOf(talhao) + 2]}" />
+                        <h:outputText value="R$ #{calcularDepreciacaoBean.resultadosDepreciacaoMaquina[calcularDepreciacaoBean.talhoes.indexOf(talhao) + 2]}" />
                     </p:column>
                 </p:dataTable>
             </p:panel>
@@ -153,7 +153,7 @@
                     <!-- Depreciação do Talhão -->
                     <p:column>
                         <f:facet name="header">Depreciação</f:facet>
-                        <h:outputText value="#{calcularDepreciacaoBean.resultadosDepreciacaoInstalacao[calcularDepreciacaoBean.talhoes.indexOf(talhao) + 1]}" />
+                        <h:outputText value="R$ #{calcularDepreciacaoBean.resultadosDepreciacaoInstalacao[calcularDepreciacaoBean.talhoes.indexOf(talhao) + 1]}" />
                     </p:column>
                 </p:dataTable>
             </p:panel>
